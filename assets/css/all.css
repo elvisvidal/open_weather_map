@@ -1,0 +1,127 @@
+/* general */
+html, body {
+    background-color: gainsboro;
+    font-family: sans-serif;
+}
+
+/* location */
+#location-info {
+    text-align: center;
+    margin: 20px auto;
+}
+#city-name {
+    display: inline-block;
+    font-size: 42px;
+}
+#country {
+    font-size: 32px;
+}
+
+/* calendar */
+.calendar-item {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+    text-align: center;
+    border: 1px solid black;
+    box-sizing: border-box;
+    background-color: white;
+}
+.calendar-month {
+    display: block;
+    padding: 5px 0;
+    background-color: lightskyblue;
+    border-bottom: 1px solid black;
+    color: white;
+    text-transform: uppercase;
+}
+.calendar-date {
+    font-size: 100px;
+    margin-top: 20px;
+}
+.forecast-link {
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    border-top: 1px dashed gray;
+    padding: 5px 0;
+    background: lightgray;
+    color: black;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 12px;
+}
+/* calendar weather */
+.calendar-weather-details {
+    position: absolute;
+    top: 100px;
+    padding: 2px;
+    background-color: wheat;
+    border-radius: 2px;
+    border: 1px solid black;
+    box-sizing: border-box;
+    font-size: 10px;
+    text-align: left;
+    text-transform: capitalize;
+    z-index: 2;
+
+    /* transition: on icon hover */
+    opacity: 0;
+    right: -40px;
+    transition: ease 1s;
+}
+.calendar-weather-details b {
+    font-weight: bold;
+}
+.calendar-weather-icon {
+    width: 60px;
+    position: absolute;
+    top: 90px;
+    right: 10px;
+    z-index: 3;
+}
+.calendar-weather-icon:hover {
+    cursor: pointer;
+}
+.calendar-weather-icon:hover + .calendar-weather-details {
+    opacity: 1;
+    right: -70px; /* slightly behind clouds (if any) */
+    transition: ease 0.5s;
+}
+
+/* forecast */
+.forecast-details {
+    display: none;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    right: -155px;
+    text-align: left;
+}
+.forecast-details.active {
+    display: block;
+}
+.forecast-item {
+    box-sizing: border-box;
+}
+.forecast-time {
+    display: block;
+}
+.forecast-weather-icon {
+    width: 60px;
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: -10px;
+}
+.forecast-weather-details {
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 10px;
+    text-transform: capitalize;
+}
+.forecast-weather-details b {
+    font-weight: bold;
+}
