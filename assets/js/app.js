@@ -135,6 +135,18 @@ var app = {
 // React
 const e = React.createElement;
 
+const Button = ({ ...prop }) => {
+    const {
+        label,
+    } = prop;
+
+    return e(
+        'button',
+        { onClick: () => alert('button works') },
+        label
+    );
+};
+
 class OpenWetaherMap extends React.Component {
     constructor(props) {
         super(props);
@@ -142,7 +154,7 @@ class OpenWetaherMap extends React.Component {
     }
 
     render() {
-        if (this.state.working) return 'React ON!';
+        if (this.state.working) return Button({ label: 'My Button' });
     }
 }
 
