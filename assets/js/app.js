@@ -129,5 +129,5 @@ var app = {
 };
 
 (function(){
-    app.init();
+    // app.init();
 }());
