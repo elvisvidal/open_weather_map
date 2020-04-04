@@ -131,32 +131,3 @@ var app = {
 (function(){
     app.init();
 }());
-
-// React
-const e = React.createElement;
-
-const Button = ({ ...prop }) => {
-    const {
-        label,
-    } = prop;
-
-    return e(
-        'button',
-        { onClick: () => alert('button works') },
-        label
-    );
-};
-
-class OpenWetaherMap extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = { working: true };
-    }
-
-    render() {
-        if (this.state.working) return Button({ label: 'My Button' });
-    }
-}
-
-const domContainer = document.querySelector('#react-app');
-ReactDOM.render(e(OpenWetaherMap), domContainer);

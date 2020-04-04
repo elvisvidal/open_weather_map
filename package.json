@@ -1,0 +1,24 @@
+{
+  "name": "open_weather_map",
+  "version": "1.0.0",
+  "description": "My implementation of the forecast 5. For more info: https://openweathermap.org/forecast5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/elvisvidal/open_weather_map.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/elvisvidal/open_weather_map/issues"
+  },
+  "homepage": "https://github.com/elvisvidal/open_weather_map#readme",
+  "dependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-react-app": "^3.1.2"
+  }
+}
