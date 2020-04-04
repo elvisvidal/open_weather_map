@@ -1,4 +1,4 @@
-"use strict";
+'use strict';
 
 var app = {
     days: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -131,3 +131,20 @@ var app = {
 (function(){
     app.init();
 }());
+
+// React
+const e = React.createElement;
+
+class OpenWetaherMap extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = { working: true };
+    }
+
+    render() {
+        if (this.state.working) return 'React ON!';
+    }
+}
+
+const domContainer = document.querySelector('#react-app');
+ReactDOM.render(e(OpenWetaherMap), domContainer);
