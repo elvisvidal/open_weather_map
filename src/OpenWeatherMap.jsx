@@ -15,15 +15,69 @@ const LocationInfo = ({ ...props }) => {
     );
 };
 
+const ForecastInfo = ({ ...props }) => {
+    const {
+        data,
+        forecastVisible,
+        swtichForecastVisibility,
+    } = props;
+
+    return (
+        <div>
+            <a
+                className='forecast-link'
+                href='#'
+                onClick={() => {
+                    swtichForecastVisibility();
+                }}
+            >Hourly Forecast</a>
+            <ul className={`forecast-details ${forecastVisible ? 'active' : ''}`}>
+                {// setting forecast item template
+                data.map((forecastItem, index) => {
+                    const itemTimeTxt = forecastItem.dt_txt.substr(11, 19);
+
+                    return (
+                        <li
+                            key={`forecast-item-${index}`}
+                            className='forecast-item'>
+                            <span className='forecast-time'>{itemTimeTxt}</span>
+                            <img
+                                className='forecast-weather-icon'
+                                src={`https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/${
+                                    forecastItem.weather[0].icon
+                                }.png`}
+                                alt={forecastItem.weather[0].description} />
+                            <div className='forecast-weather-details'>
+                                <p>${forecastItem.weather[0].description}</p>
+                                <p>
+                                    <b>Temp Min: </b><span>{forecastItem.main.temp_min}°C</span>
+                                </p>
+                                <p>
+                                    <b>Temp Max: </b><span>{forecastItem.main.temp_max}°C</span>
+                                </p>
+                            </div>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
+};
+
 const CalendarInfo = ({ ...props }) => {
     const {
         data,
         days,
         months,
+        forecastVisible,
+        swtichForecastVisibility,
     } = props;
 
     return (
         <ul id='calendar-container'>
+            <li>
+                <TestComponent />
+            </li>
             {// setting calendar item template
             data.map((calendarItem, index) => {
                 var itemDate = new Date(calendarItem.date);
@@ -48,35 +102,11 @@ const CalendarInfo = ({ ...props }) => {
                                 <b>Temp Max: </b><span>{calendarItem.items[0].main.temp_max}°C</span>
                             </p>
                         </div>
-                        <a className='forecast-link' href='#'>Hourly Forecast</a>
-
-                        <ul className='forecast-details'>
-                            {// setting forecast item template
-                            calendarItem.items.map((forecastItem, index) => {
-                                const itemTimeTxt = forecastItem.dt_txt.substr(11, 19);
-
-                                return (
-                                    <li key={`forecast-item-${index}`} className='forecast-item'>
-                                        <span className='forecast-time'>${itemTimeTxt}</span>
-                                        <img
-                                            className='forecast-weather-icon'
-                                            src={`https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/${
-                                                forecastItem.weather[0].icon
-                                            }.png`}
-                                            alt={forecastItem.weather[0].description} />
-                                        <div className='forecast-weather-details'>
-                                            <p>${forecastItem.weather[0].description}</p>
-                                            <p>
-                                                <b>Temp Min: </b><span>${forecastItem.main.temp_min}°C</span>
-                                            </p>
-                                            <p>
-                                                <b>Temp Max: </b><span>${forecastItem.main.temp_max}°C</span>
-                                            </p>
-                                        </div>
-                                    </li>
-                                );
-                            })}
-                        </ul>
+                        <ForecastInfo
+                            data={calendarItem.items}
+                            forecastVisible={forecastVisible}
+                            swtichForecastVisibility={swtichForecastVisibility}
+                        />
                     </li>
                 );
             })}
@@ -93,8 +123,10 @@ class OpenWetaherMap extends React.Component {
             city: '',
             country: '',
             calendarArray: [],
+            forecastVisible: false,
         };
         this.fetchData();
+        this.swtichForecastVisibility = this.swtichForecastVisibility.bind(this);
     }
 
     fetchData() {
@@ -139,6 +171,13 @@ class OpenWetaherMap extends React.Component {
         });
     }
 
+    swtichForecastVisibility() {
+        this.setState({
+            ...this.state,
+            forecastVisible: !this.state.forecastVisible,
+        })
+    }
+
     render() {
         return (
             <div>
@@ -150,6 +189,8 @@ class OpenWetaherMap extends React.Component {
                     data={this.state.calendarArray}
                     days={this.state.days}
                     months={this.state.months}
+                    forecastVisible={this.state.forecastVisible}
+                    swtichForecastVisibility={this.swtichForecastVisibility}
                 />
             </div>
         );

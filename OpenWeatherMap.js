@@ -35,17 +35,113 @@ var LocationInfo = function LocationInfo(_ref) {
     );
 };
 
-var CalendarInfo = function CalendarInfo(_ref2) {
+var ForecastInfo = function ForecastInfo(_ref2) {
     var props = _objectWithoutProperties(_ref2, []);
 
     var data = props.data,
+        forecastVisible = props.forecastVisible,
+        swtichForecastVisibility = props.swtichForecastVisibility;
+
+
+    return React.createElement(
+        'div',
+        null,
+        React.createElement(
+            'a',
+            {
+                className: 'forecast-link',
+                href: '#',
+                onClick: function onClick() {
+                    swtichForecastVisibility();
+                }
+            },
+            'Hourly Forecast'
+        ),
+        React.createElement(
+            'ul',
+            { className: 'forecast-details ' + (forecastVisible ? 'active' : '') },
+            // setting forecast item template
+            data.map(function (forecastItem, index) {
+                var itemTimeTxt = forecastItem.dt_txt.substr(11, 19);
+
+                return React.createElement(
+                    'li',
+                    {
+                        key: 'forecast-item-' + index,
+                        className: 'forecast-item' },
+                    React.createElement(
+                        'span',
+                        { className: 'forecast-time' },
+                        itemTimeTxt
+                    ),
+                    React.createElement('img', {
+                        className: 'forecast-weather-icon',
+                        src: 'https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + forecastItem.weather[0].icon + '.png',
+                        alt: forecastItem.weather[0].description }),
+                    React.createElement(
+                        'div',
+                        { className: 'forecast-weather-details' },
+                        React.createElement(
+                            'p',
+                            null,
+                            '$',
+                            forecastItem.weather[0].description
+                        ),
+                        React.createElement(
+                            'p',
+                            null,
+                            React.createElement(
+                                'b',
+                                null,
+                                'Temp Min: '
+                            ),
+                            React.createElement(
+                                'span',
+                                null,
+                                forecastItem.main.temp_min,
+                                '\xB0C'
+                            )
+                        ),
+                        React.createElement(
+                            'p',
+                            null,
+                            React.createElement(
+                                'b',
+                                null,
+                                'Temp Max: '
+                            ),
+                            React.createElement(
+                                'span',
+                                null,
+                                forecastItem.main.temp_max,
+                                '\xB0C'
+                            )
+                        )
+                    )
+                );
+            })
+        )
+    );
+};
+
+var CalendarInfo = function CalendarInfo(_ref3) {
+    var props = _objectWithoutProperties(_ref3, []);
+
+    var data = props.data,
         days = props.days,
-        months = props.months;
+        months = props.months,
+        forecastVisible = props.forecastVisible,
+        swtichForecastVisibility = props.swtichForecastVisibility;
 
 
     return React.createElement(
         'ul',
         { id: 'calendar-container' },
+        React.createElement(
+            'li',
+            null,
+            React.createElement(TestComponent, null)
+        ),
         // setting calendar item template
         data.map(function (calendarItem, index) {
             var itemDate = new Date(calendarItem.date);
@@ -111,76 +207,11 @@ var CalendarInfo = function CalendarInfo(_ref2) {
                         )
                     )
                 ),
-                React.createElement(
-                    'a',
-                    { className: 'forecast-link', href: '#' },
-                    'Hourly Forecast'
-                ),
-                React.createElement(
-                    'ul',
-                    { className: 'forecast-details' },
-                    // setting forecast item template
-                    calendarItem.items.map(function (forecastItem, index) {
-                        var itemTimeTxt = forecastItem.dt_txt.substr(11, 19);
-
-                        return React.createElement(
-                            'li',
-                            { key: 'forecast-item-' + index, className: 'forecast-item' },
-                            React.createElement(
-                                'span',
-                                { className: 'forecast-time' },
-                                '$',
-                                itemTimeTxt
-                            ),
-                            React.createElement('img', {
-                                className: 'forecast-weather-icon',
-                                src: 'https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + forecastItem.weather[0].icon + '.png',
-                                alt: forecastItem.weather[0].description }),
-                            React.createElement(
-                                'div',
-                                { className: 'forecast-weather-details' },
-                                React.createElement(
-                                    'p',
-                                    null,
-                                    '$',
-                                    forecastItem.weather[0].description
-                                ),
-                                React.createElement(
-                                    'p',
-                                    null,
-                                    React.createElement(
-                                        'b',
-                                        null,
-                                        'Temp Min: '
-                                    ),
-                                    React.createElement(
-                                        'span',
-                                        null,
-                                        '$',
-                                        forecastItem.main.temp_min,
-                                        '\xB0C'
-                                    )
-                                ),
-                                React.createElement(
-                                    'p',
-                                    null,
-                                    React.createElement(
-                                        'b',
-                                        null,
-                                        'Temp Max: '
-                                    ),
-                                    React.createElement(
-                                        'span',
-                                        null,
-                                        '$',
-                                        forecastItem.main.temp_max,
-                                        '\xB0C'
-                                    )
-                                )
-                            )
-                        );
-                    })
-                )
+                React.createElement(ForecastInfo, {
+                    data: calendarItem.items,
+                    forecastVisible: forecastVisible,
+                    swtichForecastVisibility: swtichForecastVisibility
+                })
             );
         })
     );
@@ -199,9 +230,11 @@ var OpenWetaherMap = function (_React$Component) {
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             city: '',
             country: '',
-            calendarArray: []
+            calendarArray: [],
+            forecastVisible: false
         };
         _this.fetchData();
+        _this.swtichForecastVisibility = _this.swtichForecastVisibility.bind(_this);
         return _this;
     }
 
@@ -252,6 +285,13 @@ var OpenWetaherMap = function (_React$Component) {
             }));
         }
     }, {
+        key: 'swtichForecastVisibility',
+        value: function swtichForecastVisibility() {
+            this.setState(Object.assign({}, this.state, {
+                forecastVisible: !this.state.forecastVisible
+            }));
+        }
+    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
@@ -264,7 +304,9 @@ var OpenWetaherMap = function (_React$Component) {
                 React.createElement(CalendarInfo, {
                     data: this.state.calendarArray,
                     days: this.state.days,
-                    months: this.state.months
+                    months: this.state.months,
+                    forecastVisible: this.state.forecastVisible,
+                    swtichForecastVisibility: this.swtichForecastVisibility
                 })
             );
         }
