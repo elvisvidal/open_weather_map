@@ -35,113 +35,129 @@ var LocationInfo = function LocationInfo(_ref) {
     );
 };
 
-var ForecastInfo = function ForecastInfo(_ref2) {
+var ForecastInfo = function (_React$Component) {
+    _inherits(ForecastInfo, _React$Component);
+
+    function ForecastInfo(props) {
+        _classCallCheck(this, ForecastInfo);
+
+        var _this = _possibleConstructorReturn(this, (ForecastInfo.__proto__ || Object.getPrototypeOf(ForecastInfo)).call(this, props));
+
+        _this.state = {
+            forecastVisible: false
+        };
+        _this.swtichForecastVisibility = _this.swtichForecastVisibility.bind(_this);
+        return _this;
+    }
+
+    _createClass(ForecastInfo, [{
+        key: 'swtichForecastVisibility',
+        value: function swtichForecastVisibility() {
+            this.setState(Object.assign({}, this.state, {
+                forecastVisible: !this.state.forecastVisible
+            }));
+        }
+    }, {
+        key: 'render',
+        value: function render() {
+            var _this2 = this;
+
+            return React.createElement(
+                'div',
+                null,
+                React.createElement(
+                    'a',
+                    {
+                        className: 'forecast-link',
+                        href: '#',
+                        onClick: function onClick() {
+                            _this2.swtichForecastVisibility();
+                        }
+                    },
+                    'Hourly Forecast'
+                ),
+                React.createElement(
+                    'ul',
+                    { className: 'forecast-details ' + (this.state.forecastVisible ? 'active' : '') },
+                    // setting forecast item template
+                    this.props.data.map(function (forecastItem, index) {
+                        var itemTimeTxt = forecastItem.dt_txt.substr(11, 19);
+
+                        return React.createElement(
+                            'li',
+                            {
+                                key: 'forecast-item-' + index,
+                                className: 'forecast-item' },
+                            React.createElement(
+                                'span',
+                                { className: 'forecast-time' },
+                                itemTimeTxt
+                            ),
+                            React.createElement('img', {
+                                className: 'forecast-weather-icon',
+                                src: 'https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + forecastItem.weather[0].icon + '.png',
+                                alt: forecastItem.weather[0].description }),
+                            React.createElement(
+                                'div',
+                                { className: 'forecast-weather-details' },
+                                React.createElement(
+                                    'p',
+                                    null,
+                                    '$',
+                                    forecastItem.weather[0].description
+                                ),
+                                React.createElement(
+                                    'p',
+                                    null,
+                                    React.createElement(
+                                        'b',
+                                        null,
+                                        'Temp Min: '
+                                    ),
+                                    React.createElement(
+                                        'span',
+                                        null,
+                                        forecastItem.main.temp_min,
+                                        '\xB0C'
+                                    )
+                                ),
+                                React.createElement(
+                                    'p',
+                                    null,
+                                    React.createElement(
+                                        'b',
+                                        null,
+                                        'Temp Max: '
+                                    ),
+                                    React.createElement(
+                                        'span',
+                                        null,
+                                        forecastItem.main.temp_max,
+                                        '\xB0C'
+                                    )
+                                )
+                            )
+                        );
+                    })
+                )
+            );
+        }
+    }]);
+
+    return ForecastInfo;
+}(React.Component);
+
+var CalendarInfo = function CalendarInfo(_ref2) {
     var props = _objectWithoutProperties(_ref2, []);
 
     var data = props.data,
-        forecastVisible = props.forecastVisible,
-        swtichForecastVisibility = props.swtichForecastVisibility;
-
-
-    return React.createElement(
-        'div',
-        null,
-        React.createElement(
-            'a',
-            {
-                className: 'forecast-link',
-                href: '#',
-                onClick: function onClick() {
-                    swtichForecastVisibility();
-                }
-            },
-            'Hourly Forecast'
-        ),
-        React.createElement(
-            'ul',
-            { className: 'forecast-details ' + (forecastVisible ? 'active' : '') },
-            // setting forecast item template
-            data.map(function (forecastItem, index) {
-                var itemTimeTxt = forecastItem.dt_txt.substr(11, 19);
-
-                return React.createElement(
-                    'li',
-                    {
-                        key: 'forecast-item-' + index,
-                        className: 'forecast-item' },
-                    React.createElement(
-                        'span',
-                        { className: 'forecast-time' },
-                        itemTimeTxt
-                    ),
-                    React.createElement('img', {
-                        className: 'forecast-weather-icon',
-                        src: 'https://openweathermap.org/themes/openweathermap/assets/vendor/owm/img/widgets/' + forecastItem.weather[0].icon + '.png',
-                        alt: forecastItem.weather[0].description }),
-                    React.createElement(
-                        'div',
-                        { className: 'forecast-weather-details' },
-                        React.createElement(
-                            'p',
-                            null,
-                            '$',
-                            forecastItem.weather[0].description
-                        ),
-                        React.createElement(
-                            'p',
-                            null,
-                            React.createElement(
-                                'b',
-                                null,
-                                'Temp Min: '
-                            ),
-                            React.createElement(
-                                'span',
-                                null,
-                                forecastItem.main.temp_min,
-                                '\xB0C'
-                            )
-                        ),
-                        React.createElement(
-                            'p',
-                            null,
-                            React.createElement(
-                                'b',
-                                null,
-                                'Temp Max: '
-                            ),
-                            React.createElement(
-                                'span',
-                                null,
-                                forecastItem.main.temp_max,
-                                '\xB0C'
-                            )
-                        )
-                    )
-                );
-            })
-        )
-    );
-};
-
-var CalendarInfo = function CalendarInfo(_ref3) {
-    var props = _objectWithoutProperties(_ref3, []);
-
-    var data = props.data,
         days = props.days,
-        months = props.months,
-        forecastVisible = props.forecastVisible,
-        swtichForecastVisibility = props.swtichForecastVisibility;
+        months = props.months;
 
 
     return React.createElement(
         'ul',
         { id: 'calendar-container' },
-        React.createElement(
-            'li',
-            null,
-            React.createElement(TestComponent, null)
-        ),
         // setting calendar item template
         data.map(function (calendarItem, index) {
             var itemDate = new Date(calendarItem.date);
@@ -208,40 +224,36 @@ var CalendarInfo = function CalendarInfo(_ref3) {
                     )
                 ),
                 React.createElement(ForecastInfo, {
-                    data: calendarItem.items,
-                    forecastVisible: forecastVisible,
-                    swtichForecastVisibility: swtichForecastVisibility
+                    data: calendarItem.items
                 })
             );
         })
     );
 };
 
-var OpenWetaherMap = function (_React$Component) {
-    _inherits(OpenWetaherMap, _React$Component);
+var OpenWetaherMap = function (_React$Component2) {
+    _inherits(OpenWetaherMap, _React$Component2);
 
     function OpenWetaherMap(props) {
         _classCallCheck(this, OpenWetaherMap);
 
-        var _this = _possibleConstructorReturn(this, (OpenWetaherMap.__proto__ || Object.getPrototypeOf(OpenWetaherMap)).call(this, props));
+        var _this3 = _possibleConstructorReturn(this, (OpenWetaherMap.__proto__ || Object.getPrototypeOf(OpenWetaherMap)).call(this, props));
 
-        _this.state = {
+        _this3.state = {
             days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
             months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
             city: '',
             country: '',
-            calendarArray: [],
-            forecastVisible: false
+            calendarArray: []
         };
-        _this.fetchData();
-        _this.swtichForecastVisibility = _this.swtichForecastVisibility.bind(_this);
-        return _this;
+        _this3.fetchData();
+        return _this3;
     }
 
     _createClass(OpenWetaherMap, [{
         key: 'fetchData',
         value: function fetchData() {
-            var _this2 = this;
+            var _this4 = this;
 
             // Running the api without a server. ¯\_(ツ)_/¯
             // See more on the link bellow.
@@ -254,8 +266,8 @@ var OpenWetaherMap = function (_React$Component) {
             url += apiKey;
             Ajax.load('GET', corsPrependUrl + url, function (res) {
                 var data = JSON.parse(res);
-                _this2.setCalendarInfoData(data);
-                _this2.setState(Object.assign({}, _this2.state, {
+                _this4.setCalendarInfoData(data);
+                _this4.setState(Object.assign({}, _this4.state, {
                     city: data.city.name,
                     country: data.city.country
                 }));
@@ -285,13 +297,6 @@ var OpenWetaherMap = function (_React$Component) {
             }));
         }
     }, {
-        key: 'swtichForecastVisibility',
-        value: function swtichForecastVisibility() {
-            this.setState(Object.assign({}, this.state, {
-                forecastVisible: !this.state.forecastVisible
-            }));
-        }
-    }, {
         key: 'render',
         value: function render() {
             return React.createElement(
@@ -304,9 +309,7 @@ var OpenWetaherMap = function (_React$Component) {
                 React.createElement(CalendarInfo, {
                     data: this.state.calendarArray,
                     days: this.state.days,
-                    months: this.state.months,
-                    forecastVisible: this.state.forecastVisible,
-                    swtichForecastVisibility: this.swtichForecastVisibility
+                    months: this.state.months
                 })
             );
         }
